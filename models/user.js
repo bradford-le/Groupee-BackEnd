@@ -1,8 +1,9 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: {
     type: String,
     required: [true, 'The username is required']
@@ -10,6 +11,10 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'The password is required']
+  },
+  email: {
+    type: String,
+    required: [true, 'The email is required']
   }
 },
 {

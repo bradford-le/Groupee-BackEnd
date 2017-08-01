@@ -3,11 +3,12 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-
 var passport = require('./config/passport');
 
 var phonesApi = require('./routes/phones-api');
 var userAuth = require('./routes/user-auth');
+
+var User = require('./models/user')
 
 // database connection
 require('./config/database');

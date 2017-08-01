@@ -9,6 +9,7 @@ var phonesApi = require('./routes/phones-api');
 var userAuth = require('./routes/user-auth');
 
 var User = require('./models/user')
+var Events = require('./models/events');
 
 // database connection
 require('./config/database');

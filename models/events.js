@@ -4,7 +4,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const eventsSchema = new Schema({
+const eventSchema = new Schema({
   host: {
     type: String,
     required: [true, 'The host is required']
@@ -41,6 +41,6 @@ const eventsSchema = new Schema({
   }
 });
 
-const User = mongoose.model('User', userSchema);
+const Event = mongoose.model('Event', eventSchema);
 
-module.exports = User;
+module.exports = Event;

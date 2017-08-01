@@ -5,7 +5,7 @@ const passport = require('../config/passport');
 const jwt = require('jsonwebtoken');
 const jwtOptions = require('../config/jwt');
 
-const User = require('../models/user-model');
+const User = require('../models/user');
 
 const bcrypt = require('bcrypt');
 const bcryptSalt = 10;

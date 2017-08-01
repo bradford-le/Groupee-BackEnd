@@ -3,7 +3,7 @@ const passportJwt = require('passport-jwt');
 const JwtStrategy = passportJwt.Strategy;
 
 const jwtOptions = require('./jwt');
-const User = require('../models/user');
+const User = require('../models/user-model');
 
 let strategy = new JwtStrategy(jwtOptions, (payload, done) => {
   User.findById(payload.id, (err, user) => {

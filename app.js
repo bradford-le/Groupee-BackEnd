@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('./config/passport');
 const http = require('http');
-const fs = require('fs');
-const routes = require('./routes');
 
 const activityApi = require('./routes/activity-api');
 const userAuth = require('./routes/user-auth');
@@ -18,15 +16,6 @@ const Activity = require('./models/activity-model');
 require('./config/database');
 
 var app = express();
-
-try {
-  var configJSON = fs.readFileSync(__dirname + "/config.json");
-  var config = JSON.parse(configJSON.toString());
-} catch (e) {
-  console.error("File config.json not found or is invalid: " + e.message);
-  process.exit(1);
-}
-routes.init(config);
 
 app.use(cors());
 

@@ -6,7 +6,7 @@ const cors = require('cors');
 const passport = require('./config/passport');
 const http = require('http');
 const fs = require('fs');
-
+const routes = require('./routes');
 
 const activityApi = require('./routes/activity-api');
 const userAuth = require('./routes/user-auth');

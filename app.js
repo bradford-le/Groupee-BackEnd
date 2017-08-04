@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('./config/passport');
 const http = require('http');
+const paypal = require('paypal-rest-sdk');
 
 const activityApi = require('./routes/activity-api');
 const userAuth = require('./routes/user-auth');
@@ -14,6 +15,7 @@ const Activity = require('./models/activity-model');
 
 // database connection
 require('./config/database');
+require('./config/paypal');
 
 var app = express();
 

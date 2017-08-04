@@ -4,7 +4,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const eventsSchema = new Schema({
+const activitySchema = new Schema({
   host: {
     type: String,
     required: [true, 'The host is required']
@@ -17,7 +17,7 @@ const eventsSchema = new Schema({
     userid: { type: Schema.Types.ObjectId, ref: 'User' },
     amount: Number
   }],
-  payments_recived: [{
+  payments_recieved: [{
     userid: { type: Schema.Types.ObjectId, ref: 'User' },
     amount: Number
   }],
@@ -30,7 +30,7 @@ const eventsSchema = new Schema({
     required: [true, 'The Deadline is required']
   },
   state: {
-    type: [String],
+    type: String,
     required: [true, 'The State is required']
   }
 },
@@ -41,6 +41,5 @@ const eventsSchema = new Schema({
   }
 });
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+const Activity = mongoose.model('Activity', activitySchema);
+module.exports = Activity;

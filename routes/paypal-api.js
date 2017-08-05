@@ -6,7 +6,11 @@ const paypal = require('paypal-rest-sdk');
 
 const Activity = require('../models/activity-model');
 
-
+//
+// ────────────────────────────────────────────────────────────────────────────────────────────────────── I ──────────
+//   :::::: R E D I R E C T   U R L   F O R   P A Y P A L   E X E C U T E : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+//
 router.get('/paypal-test',function(req,res){
   var url = require('url');
   var url_parts = url.parse(req.url,true);
@@ -28,10 +32,11 @@ router.get('/paypal-test',function(req,res){
       }
     }
   });
-
 });
-
-
+// ──────────────────────────────────────────────────────────── II ──────────
+//   :::::: T A I R   N O T E S : :  :   :    :     :        :          :
+// ──────────────────────────────────────────────────────────────────────
+//
 router.put('/events/:id', function(req, res) {
   // has the status been changed?
   // yes, it's wip
@@ -57,7 +62,9 @@ router.put('/event/:event_id/payments/:id', function() {
   // mark as paid only if.... // 
 });
 
-
+// ──────────────────────────────────────────────────────────────────────────────────── III ──────────
+//   :::::: F U L L   P A Y P A L   S I M U L A T I O N : :  :   :    :     :        :          :
+// ──────────────────────────────────────────────────────────────────────────────────────────────
 router.get('/paypalfull',function(req,res){
 
   var payReq = JSON.stringify({
@@ -115,6 +122,93 @@ paypal.payment.create(payReq, function(error, payment){
     }
   }
 });
+});
+
+//
+// ────────────────────────────────────────────────────────────────────────────────────────────── IV ──────────
+//   :::::: B A T C H   P A Y P A L   P A Y   S I M U L A T I O N : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────
+router.get('/batch',(req,res)=>{
+
+  var sender_batch_id = Math.random().toString(36).substring(9);
+
+  var create_payout_json = {
+    "sender_batch_header": {
+        "sender_batch_id": sender_batch_id,
+        "email_subject": "You have a payment"
+    },
+    "items": [
+        {
+            "recipient_type": "EMAIL",
+            "amount": {
+                "value":1.00,
+                "currency": "USD"
+            },
+            "receiver": "tair@gmail.com",
+            "note": "Thank you.",
+            "sender_item_id": "item_1"
+        },
+        {
+            "recipient_type": "EMAIL",
+            "amount": {
+                "value": 2.00,
+                "currency": "USD"
+            },
+            "receiver": "groupee@gmail.com",
+            "note": "Thank you.",
+            "sender_item_id": "item_2"
+        },
+        {
+            "recipient_type": "EMAIL",
+            "amount": {
+                "value": 3.00,
+                "currency": "USD"
+            },
+            "receiver": "arnau@gmail.com",
+            "note": "Thank you.",
+            "sender_item_id": "item_3"
+        },
+        {
+          "recipient_type": "EMAIL",
+          "amount": {
+              "value": 4.00,
+              "currency": "USD"
+          },
+          "receiver": "brad.le444-buyer@gmail.com",
+          "note": "Thank you.",
+          "sender_item_id": "item_4"
+      }
+    ]
+  };
+
+  paypal.payout.create(create_payout_json, function (error, payout) {
+      if (error) {
+          console.log(error.response);
+          throw error;
+      } else {
+          console.log("Create Payout Response");
+          console.log(payout);
+      }
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────────────────────── V ──────────
+//   :::::: G E T   B A T C H   P A Y O U T   S T A T U S : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────────────────────────────
+
+router.get('/batchstatus',(req,res)=>{
+
+  var payoutId = "KYGNT75DKSLLQ";
+  
+  paypal.payout.get(payoutId, function (error, payout) {
+      if (error) {
+          console.log(error);
+          throw error;
+      } else {
+          console.log("Get Payout Response");
+          console.log(payout);
+      }
+  });
 });
 
 module.exports = router;

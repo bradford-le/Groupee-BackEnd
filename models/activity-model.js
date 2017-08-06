@@ -11,13 +11,9 @@ const activitySchema = new Schema({
     type: String,
     required: [true, 'The name is required']
   },
-  members: [{
-    userid: { type: Schema.Types.ObjectId, ref: 'User' },
-    accepted: Boolean
-  }],
-  deadline: {
-    type: Date,
-    required: [true, 'The Deadline is required']
+  members: {
+    type: Array,
+    default: []
   },
   state: {
     type: String,

@@ -26,10 +26,7 @@ router.post('/activity',(req,res,next)=>{
   const newActivity = new Activity({
     host: req.body.host,
     name: req.body.name,
-    payments_paid: req.body.payments_paid,
-    payments_received: req.body.payments_received,
     members: req.body.members,
-    deadline: req.body.deadline,
     state: req.body.state
   });
 
@@ -74,7 +71,9 @@ router.put('/activity/:id',(req,res,next)=>{
 
   const updates = {
     host: req.body.host,
-    members: req.body.members
+    name: req.body.name,
+    members: req.body.members,
+    state: req.body.state
   };
 
   Activity.findByIdAndUpdate(req.params.id,upates,(err)=>{

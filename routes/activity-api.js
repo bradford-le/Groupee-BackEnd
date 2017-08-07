@@ -90,11 +90,11 @@ router.put('/activity/:id',(req,res,next)=>{
 // ──────────────────────────────────────────────────────────────────────────────────────
 //
 router.delete('/activity/:id',(req,res,next)=>{
-  if(!mongoose.Types.ObjectId.isValid(req.paramas.id)){
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:"Specified id is not valid"});
   }
 
-  Activity.remove({_id: req.params.id},(err)=>{
+  Activity.remove({ _id: req.params.id},(err)=>{
     if(err){
       res.json({message: 'There is an error deleting!'});
       return;

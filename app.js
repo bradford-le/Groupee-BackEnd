@@ -9,6 +9,8 @@ const paypal = require('paypal-rest-sdk');
 
 const eventApi = require('./routes/event-api');
 const userAuth = require('./routes/user-auth');
+const paypalApi = require('./routes/paypal-api');
+const index = require('./routes/index');
 
 const User = require('./models/user-model')
 const Event = require('./models/event-model');
@@ -18,6 +20,8 @@ require('./config/database');
 require('./config/paypal');
 
 var app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine','jade');
 
 app.use(cors());
 
@@ -27,8 +31,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 // app.use('/', userAuth);
-// app.use('/api',  passport.authenticate('jwt', {session: false}), eventApi);
-app.use('/api',eventApi)
+// app.use('/api',  passport.authenticate('jwt', {session: false}), activityApi);
+app.use('/',index);
+app.use('/api',activityApi)
+app.use('/api/',paypalApi);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

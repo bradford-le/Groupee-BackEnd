@@ -1,6 +1,4 @@
-
 'use strict';
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -17,14 +15,13 @@ const eventSchema = new Schema({
     type: Array,
     default: []
   },
-  deadline: {
-    type: Date,
-    required: [true, 'The Deadline is required']
-  },
   state: {
     type: String,
     required: [true, 'The State is required']
-  }
+  },
+  payments: [{
+    type: Schema.Types.ObjectId, ref: 'Payment'
+  }]
 },
 {
   timestamps: {

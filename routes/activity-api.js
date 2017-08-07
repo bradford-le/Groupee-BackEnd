@@ -26,10 +26,7 @@ router.post('/event',(req,res,next)=>{
   const newActivity = new Activity({
     host: req.body.host,
     name: req.body.name,
-    payments_paid: req.body.payments_paid,
-    payments_received: req.body.payments_received,
     members: req.body.members,
-    deadline: req.body.deadline,
     state: req.body.state
   });
 
@@ -44,8 +41,7 @@ router.post('/event',(req,res,next)=>{
     });
   });
 });
-
-//
+  
 // ────────────────────────────────────────────────────────────────────────────────── III ──────────
 //   :::::: G E T   A   S I N G L E   A C T I V I T Y : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
@@ -89,7 +85,9 @@ router.put('/event/:id',(req,res,next)=>{
 
   const updates = {
     host: req.body.host,
-    members: req.body.members
+    name: req.body.name,
+    members: req.body.members,
+    state: req.body.state
   };
 
   Activity.findByIdAndUpdate(req.params.id,upates,(err)=>{
@@ -101,17 +99,16 @@ router.put('/event/:id',(req,res,next)=>{
   });
 });
 
-//
 // ──────────────────────────────────────────────────────────────────────────── V ──────────
 //   :::::: D E L E T E   A N   A C T I V I T Y : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────────────
 //
-router.delete('/event/:id',(req,res,next)=>{
+router.delete('/activity/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:"Specified id is not valid"});
   }
 
-  Activity.remove({_id: req.params.id},(err)=>{
+  Activity.remove({ _id: req.params.id},(err)=>{
     if(err){
       res.json({message: 'There is an error deleting!'});
       return;

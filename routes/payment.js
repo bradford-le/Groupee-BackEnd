@@ -7,10 +7,10 @@ var medianValue = 0;
 
 list = [
     // { who: "arnau", amount: 5 },
-    { who: "brad", amount: 10 }, { who: "matias", amount: 56 },
-    { who: "arnau", amount: 52 },
-    { who: "tair", amount: 55 },
-    { who: "matias", amount: 56 },
+    { who: "brad", amount: 0 },
+    { who: "arnau", amount: 15 },
+    { who: "tair", amount: 15 },
+    // { who: "matias", amount: 56 },
 ]
 
 logOfPayments();

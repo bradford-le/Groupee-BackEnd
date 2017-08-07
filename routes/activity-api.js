@@ -2,19 +2,19 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 
-const Activity = require('../models/activity-model');  
+const Activity = require('../models/event-model');  
 
 // ────────────────────────────────────────────────────────────────────────────────── I ──────────
 //   :::::: G E T   A C T I V I T Y   L I S T I N G S : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
-router.get('/activity',(req,res,next)=>{
-  Activity.find((err,activityList)=>{
+router.get('/event',(req,res,next)=>{
+  Activity.find((err,eventList)=>{
     if(err){
       res.json(err);
       return;
     }
-    res.json(activityList);
+    res.json(eventList);
   });
 });
 //
@@ -22,7 +22,7 @@ router.get('/activity',(req,res,next)=>{
 //   :::::: C R E A T E   A   N E W   A C T I V I T Y : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
-router.post('/activity',(req,res,next)=>{
+router.post('/event',(req,res,next)=>{
   const newActivity = new Activity({
     host: req.body.host,
     name: req.body.name,
@@ -50,7 +50,7 @@ router.post('/activity',(req,res,next)=>{
 //   :::::: G E T   A   S I N G L E   A C T I V I T Y : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
-router.get('/activity/:id',(req,res,next)=>{
+router.get('/event/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:'Specified id is not valid'});
   }
@@ -63,12 +63,26 @@ router.get('/activity/:id',(req,res,next)=>{
     res.json(theActivity);
   });
 });
+
+router.get('/event/:id',(req,res,next)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(400).json({message:'Specified id is not valid'});
+  }
+
+  Activity.findById(req.params.id,(err,theEvent)=>{
+    if(err) {
+      res.json(err);
+      return;
+    }
+    res.json(theEvent);
+  });
+});
 //
 // ──────────────────────────────────────────────────────────────────────── IV ──────────
 //   :::::: E D I T   A N   A C T I V I T Y : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────────
 //
-router.put('/activity/:id',(req,res,next)=>{
+router.put('/event/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.paramas.id)){
     res.status(400).json({message:"Specified id is not valid"});
   }
@@ -92,8 +106,8 @@ router.put('/activity/:id',(req,res,next)=>{
 //   :::::: D E L E T E   A N   A C T I V I T Y : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────────────
 //
-router.delete('/activity/:id',(req,res,next)=>{
-  if(!mongoose.Types.ObjectId.isValid(req.paramas.id)){
+router.delete('/event/:id',(req,res,next)=>{
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:"Specified id is not valid"});
   }
 

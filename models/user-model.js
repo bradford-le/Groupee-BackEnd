@@ -12,17 +12,15 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'The password is required']
   },
-  email: {
-    type: String,
-    required: [true, 'The email is required']
-  }
+  eventId: [{ type: Schema.Types.ObjectId, ref: 'groupeeEvent' }],
+  itemIds: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
 },
-{
-  timestamps: {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at'
-  }
-});
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  });
 
 const User = mongoose.model('User', userSchema);
 

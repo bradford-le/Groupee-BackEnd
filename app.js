@@ -1,19 +1,24 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var passport = require('./config/passport');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const passport = require('./config/passport');
+const http = require('http');
+const morgan = require('morgan');
 
-var phonesApi = require('./routes/phones-api');
-var userAuth = require('./routes/user-auth');
+const eventApi = require('./routes/event-api');
+const userAuth = require('./routes/user-auth');
 
-var User = require('./models/user')
+const User = require('./models/user-model')
+const groupeeEvent = require('./models/event-model');
 
 // database connection
 require('./config/database');
 
 var app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine','jade');
 
 app.use(cors());
 
@@ -22,7 +27,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', userAuth);
-app.use('/api',  passport.authenticate('jwt', {session: false}), phonesApi);
+app.use('/api',  passport.authenticate('jwt', {session: false}), eventApi);
+// app.use('/api/',passport.authenticate('jwt', {session: false}), paypalApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

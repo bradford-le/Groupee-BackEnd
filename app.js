@@ -6,11 +6,11 @@ const cors = require('cors');
 const passport = require('./config/passport');
 const http = require('http');
 const paypal = require('paypal-rest-sdk');
+const morgan = require('morgan');
 
 const activityApi = require('./routes/activity-api');
 const userAuth = require('./routes/user-auth');
 const paypalApi = require('./routes/paypal-api');
-const index = require('./routes/index');
 
 const User = require('./models/user-model')
 const Activity = require('./models/activity-model');
@@ -29,13 +29,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-// app.use('/', userAuth);
-// app.use('/api',  passport.authenticate('jwt', {session: false}), activityApi);
-app.use('/',index);
 app.use('/', userAuth);
-app.use('/api',activityApi)
-app.use('/api/',paypalApi);
+app.use('/api',  passport.authenticate('jwt', {session: false}), activityApi);
+// app.use('/api/',passport.authenticate('jwt', {session: false}), paypalApi);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

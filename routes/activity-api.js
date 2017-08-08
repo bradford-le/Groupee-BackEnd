@@ -17,6 +17,7 @@ router.get('/activity',(req,res,next)=>{
     res.json(activityList);
   });
 });
+
 //
 // ────────────────────────────────────────────────────────────────────────────────── II ──────────
 //   :::::: C R E A T E   A   N E W   A C T I V I T Y : :  :   :    :     :        :          :
@@ -66,7 +67,7 @@ router.get('/activity/:id',(req,res,next)=>{
 // ──────────────────────────────────────────────────────────────────────────────────
 //
 router.put('/activity/:id',(req,res,next)=>{
-  if(!mongoose.Types.ObjectId.isValid(req.paramas.id)){
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:"Specified id is not valid"});
   }
 
@@ -77,7 +78,7 @@ router.put('/activity/:id',(req,res,next)=>{
     state: req.body.state
   };
 
-  Activity.findByIdAndUpdate(req.params.id,upates,(err)=>{
+  Activity.findByIdAndUpdate(req.params.id,updates,(err)=>{
     if(err){
       res.json(err);
       return;

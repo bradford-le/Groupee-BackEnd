@@ -9,8 +9,8 @@ const groupeeEvent = require('../models/event-model');
 //
 
 router.get('/event', (req,res,next)=>{
-  console.log("user", req.user._id);
-  groupeeEvent.find({'host' : req.user._id},(err,eventList)=>{
+  console.log("user", req.user.username);
+  groupeeEvent.find({'host' : req.user.username},(err,eventList)=>{
     if(err){
       res.json(err);
       return;
@@ -29,7 +29,7 @@ router.post('/event',(req,res,next)=>{
     host: req.user.username,
     name: req.body.name,
     members: req.user._id,
-    state: req.body.state,
+    state: "OPEN"
   });
 
   newEvent.save((err)=>{
@@ -39,11 +39,11 @@ router.post('/event',(req,res,next)=>{
     }
     res.json({
       message: 'New Event Created!',
-      id: newEvent._id,
-      hostID: newEvent.host,
+      Eventid: newEvent._id,
+      hostname: newEvent.host,
       name: newEvent.name,
       state: newEvent.state,
-      memebers: newEvent.members
+      members: newEvent.members
     });
   });
 });

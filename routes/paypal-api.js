@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const paypal = require('paypal-rest-sdk');
 
-const Activity = require('../models/activity-model');
+const groupeeEvent = require('../models/event-model');
 
 // ────────────────────────────────────────────────────────────────────────────────────────────────────── I ──────────
 //   :::::: R E D I R E C T   U R L   F O R   P A Y P A L   E X E C U T E : :  :   :    :     :        :          :

@@ -8,12 +8,12 @@ const http = require('http');
 const paypal = require('paypal-rest-sdk');
 const morgan = require('morgan');
 
-const activityApi = require('./routes/activity-api');
+const eventApi = require('./routes/event-api');
 const userAuth = require('./routes/user-auth');
 const paypalApi = require('./routes/paypal-api');
 
 const User = require('./models/user-model')
-const Activity = require('./models/activity-model');
+const groupeeEvent = require('./models/event-model');
 
 // database connection
 require('./config/database');
@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', userAuth);
-app.use('/api',  passport.authenticate('jwt', {session: false}), activityApi);
+app.use('/api',  passport.authenticate('jwt', {session: false}), eventApi);
 // app.use('/api/',passport.authenticate('jwt', {session: false}), paypalApi);
 
 // catch 404 and forward to error handler

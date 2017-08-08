@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const activitySchema = new Schema({
+const groupeeEventSchema = new Schema({
   host: {
     type: String,
     required: [true, 'The host is required']
@@ -30,5 +30,5 @@ const activitySchema = new Schema({
   }
 });
 
-const Activity = mongoose.model('Activity', activitySchema);
-module.exports = Activity;
+const groupeeEvent = mongoose.model('groupeeEvent', groupeeEventSchema);
+module.exports = groupeeEvent;

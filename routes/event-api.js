@@ -8,8 +8,11 @@ const groupeeEvent = require('../models/event-model');
 //   :::::: G E T   E V E N T   L I S T I N G S : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
-router.get('/event',(req,res,next)=>{
-  groupeeEvent.find((err,eventList)=>{
+
+router.get('/event', (req,res,next)=>{
+
+  console.log("user", req.user._id);
+  groupeeEvent.find((err,eventList)=>{ //{'host' : req.user._id}, 
     if(err){
       res.json(err);
       return;
@@ -17,6 +20,7 @@ router.get('/event',(req,res,next)=>{
     res.json(eventList);
   });
 });
+
 //
 // ────────────────────────────────────────────────────────────────────────────────── II ──────────
 //   :::::: C R E A T E   A   N E W   E V E N T : :  :   :    :     :        :          :
@@ -24,7 +28,7 @@ router.get('/event',(req,res,next)=>{
 //
 router.post('/event',(req,res,next)=>{
   const newEvent = new groupeeEvent({
-    host: req.body.host,
+    host: req.user._id,
     name: req.body.name,
     members: req.body.members,
     state: req.body.state
@@ -59,6 +63,7 @@ router.get('/event/:id',(req,res,next)=>{
     res.json(theEvent);
   });
 });
+
 //
 // ──────────────────────────────────────────────────────────────────────── IV ──────────
 //   :::::: E D I T   A N   E V E N T : :  :   :    :     :        :          :

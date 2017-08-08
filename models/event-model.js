@@ -12,7 +12,11 @@ const groupeeEventSchema = new Schema({
     required: [true, 'The name is required']
   },
   members: {
-    type: Array,
+    type: Schema.Types.ObjectId, ref: 'User',
+    default: []
+  },
+  items: {
+    type: Schema.Types.ObjectId, ref: 'Items',
     default: []
   },
   state: {

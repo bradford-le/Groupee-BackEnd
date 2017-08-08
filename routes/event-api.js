@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
-
 const groupeeEvent = require('../models/event-model');  
 
 // ────────────────────────────────────────────────────────────────────────────────── I ──────────
@@ -10,9 +9,8 @@ const groupeeEvent = require('../models/event-model');
 //
 
 router.get('/event', (req,res,next)=>{
-
   console.log("user", req.user._id);
-  groupeeEvent.find((err,eventList)=>{ //{'host' : req.user._id}, 
+  groupeeEvent.find({'host' : req.user._id},(err,eventList)=>{
     if(err){
       res.json(err);
       return;
@@ -28,10 +26,10 @@ router.get('/event', (req,res,next)=>{
 //
 router.post('/event',(req,res,next)=>{
   const newEvent = new groupeeEvent({
-    host: req.user._id,
+    host: req.user.username,
     name: req.body.name,
-    members: req.body.members,
-    state: req.body.state
+    members: req.user._id,
+    state: req.body.state,
   });
 
   newEvent.save((err)=>{
@@ -41,7 +39,11 @@ router.post('/event',(req,res,next)=>{
     }
     res.json({
       message: 'New Event Created!',
-      id: newEvent._id
+      id: newEvent._id,
+      hostID: newEvent.host,
+      name: newEvent.name,
+      state: newEvent.state,
+      memebers: newEvent.members
     });
   });
 });

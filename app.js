@@ -5,19 +5,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('./config/passport');
 const http = require('http');
-const paypal = require('paypal-rest-sdk');
 const morgan = require('morgan');
 
 const eventApi = require('./routes/event-api');
 const userAuth = require('./routes/user-auth');
-const paypalApi = require('./routes/paypal-api');
 
 const User = require('./models/user-model')
 const groupeeEvent = require('./models/event-model');
 
 // database connection
 require('./config/database');
-require('./config/paypal');
 
 var app = express();
 app.set('views', path.join(__dirname, 'views'));

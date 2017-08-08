@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const eventSchema = new Schema({
+const groupeeEventSchema = new Schema({
   host: {
     type: String,
     required: [true, 'The host is required']
@@ -12,7 +12,11 @@ const eventSchema = new Schema({
     required: [true, 'The name is required']
   },
   members: {
-    type: Array,
+    type: Schema.Types.ObjectId, ref: 'User',
+    default: []
+  },
+  items: {
+    type: Schema.Types.ObjectId, ref: 'Items',
     default: []
   },
   state: {
@@ -30,5 +34,5 @@ const eventSchema = new Schema({
   }
 });
 
-const Activity = mongoose.model('Activity', eventSchema);
-module.exports = Activity;
+const groupeeEvent = mongoose.model('groupeeEvent', groupeeEventSchema);
+module.exports = groupeeEvent;

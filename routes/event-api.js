@@ -2,71 +2,74 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 
-const Activity = require('../models/activity-model');  
+const groupeeEvent = require('../models/event-model');  
 
 // ────────────────────────────────────────────────────────────────────────────────── I ──────────
-//   :::::: G E T   A C T I V I T Y   L I S T I N G S : :  :   :    :     :        :          :
+//   :::::: G E T   E V E N T   L I S T I N G S : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
-router.get('/activity',(req,res,next)=>{
-  Activity.find((err,activityList)=>{
+
+router.get('/event', (req,res,next)=>{
+
+  console.log("user", req.user._id);
+  groupeeEvent.find((err,eventList)=>{ //{'host' : req.user._id}, 
     if(err){
       res.json(err);
       return;
     }
-    res.json(activityList);
+    res.json(eventList);
   });
 });
 
 //
 // ────────────────────────────────────────────────────────────────────────────────── II ──────────
-//   :::::: C R E A T E   A   N E W   A C T I V I T Y : :  :   :    :     :        :          :
+//   :::::: C R E A T E   A   N E W   E V E N T : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
-router.post('/activity',(req,res,next)=>{
-  const newActivity = new Activity({
-    host: req.body.host,
+router.post('/event',(req,res,next)=>{
+  const newEvent = new groupeeEvent({
+    host: req.user._id,
     name: req.body.name,
     members: req.body.members,
     state: req.body.state
   });
 
-  newActivity.save((err)=>{
+  newEvent.save((err)=>{
     if(err){
       res.json(err);
       return;
     }
     res.json({
-      message: 'New Activity Created!',
-      id: newActivity._id
+      message: 'New Event Created!',
+      id: newEvent._id
     });
   });
 });
   
 // ────────────────────────────────────────────────────────────────────────────────── III ──────────
-//   :::::: G E T   A   S I N G L E   A C T I V I T Y : :  :   :    :     :        :          :
+//   :::::: G E T   A   S I N G L E   E V E N T : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
-router.get('/activity/:id',(req,res,next)=>{
+router.get('/event/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:'Specified id is not valid'});
   }
 
-  Activity.findById(req.params.id,(err,theActivity)=>{
+  groupeeEvent.findById(req.params.id,(err,theEvent)=>{
     if(err) {
       res.json(err);
       return;
     }
-    res.json(theActivity);
+    res.json(theEvent);
   });
 });
 
 //
 // ──────────────────────────────────────────────────────────────────────── IV ──────────
-//   :::::: E D I T   A N   A C T I V I T Y : :  :   :    :     :        :          :
+//   :::::: E D I T   A N   E V E N T : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────────
 //
-router.put('/activity/:id',(req,res,next)=>{
+router.put('/event/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:"Specified id is not valid"});
   }
@@ -78,7 +81,7 @@ router.put('/activity/:id',(req,res,next)=>{
     state: req.body.state
   };
 
-  Activity.findByIdAndUpdate(req.params.id,updates,(err)=>{
+  groupeeEvent.findByIdAndUpdate(req.params.id,updates,(err)=>{
     if(err){
       res.json(err);
       return;
@@ -88,20 +91,20 @@ router.put('/activity/:id',(req,res,next)=>{
 });
 
 // ──────────────────────────────────────────────────────────────────────────── V ──────────
-//   :::::: D E L E T E   A N   A C T I V I T Y : :  :   :    :     :        :          :
+//   :::::: D E L E T E   A N   E V E N T : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────────────
 //
-router.delete('/activity/:id',(req,res,next)=>{
+router.delete('/event/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:"Specified id is not valid"});
   }
 
-  Activity.remove({ _id: req.params.id},(err)=>{
+  groupeeEvent.remove({ _id: req.params.id},(err)=>{
     if(err){
       res.json({message: 'There is an error deleting!'});
       return;
     }
-    return res.json({message:"Activity has been removed!"});
+    return res.json({message:"Event has been removed!"});
   });
 });
 

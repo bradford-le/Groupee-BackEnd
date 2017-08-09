@@ -16,7 +16,7 @@ const groupeeEventSchema = new Schema({
     default: []
   },
   items: {
-    type: Schema.Types.ObjectId, ref: 'Items',
+    type: Schema.Types.ObjectId, ref: 'Item',
     default: []
   },
   state: {

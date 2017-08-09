@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
+const _ = require('lodash');
 const groupeeEvent = require('../models/event-model');  
 const Item = require('../models/items-model');
 const User = require('../models/user-model');
@@ -59,15 +60,28 @@ router.get('/event/:id',(req,res,next)=>{
     res.status(400).json({message:'Specified id is not valid'});
   }
 
-  groupeeEvent.findById(req.params.id,(err,theEvent)=>{
+    groupeeEvent.findById(req.params.id,(err,theEvent)=>{
     if(err) {
       res.json(err);
       return;
     }
-    res.json(theEvent);
+    groupeeEvent.findById(theEvent._id)
+     .populate('items')
+     .populate('members')
+     .exec(function(err, newEvent) {
+      if (err){ return next(err); }
+      res.json(newEvent);
+    });
+    if(newEvent.items) {
+      _.forEach(items,(item)=>{
+        let itemCost = [];
+        itemCost.push(item.amount);
+    groupeeEvent.findByIdAndUpdate()
+      });
+    }
+    
   });
 });
-
 //
 // ──────────────────────────────────────────────────────────────────────── IV ──────────
 //   :::::: U P D A T E   A N   E V E N T : :  :   :    :     :        :          :
@@ -118,13 +132,15 @@ router.post('/event/:eventId/items', (req, res, next) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.eventId)){
     res.status(400).json({message:'Specified id is not valid'});
   }
-    console.log("enter create item");
+
     let eventId = req.params.eventId;
     let user = req.user._id;
+    let username = req.user.username;
 
     const newItem = new Item({
       eventid: eventId,
       userid: user,
+      username: username,
       amount: req.body.amount,
       description: req.body.description
     });
@@ -140,7 +156,7 @@ router.post('/event/:eventId/items', (req, res, next) => {
           return;
         }
         console.log("new Event",theEvent);
-
+    
         res.json({
           message: 'New Item Created!',
           theEvent

@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
+const _ = require('lodash');
 const groupeeEvent = require('../models/event-model');  
+const Item = require('../models/items-model');
+const User = require('../models/user-model');
 
 // ────────────────────────────────────────────────────────────────────────────────── I ──────────
 //   :::::: G E T   E V E N T   L I S T I N G S : :  :   :    :     :        :          :
@@ -9,8 +12,8 @@ const groupeeEvent = require('../models/event-model');
 //
 
 router.get('/event', (req,res,next)=>{
-  console.log("user", req.user._id);
-  groupeeEvent.find({'host' : req.user._id},(err,eventList)=>{
+  console.log("user", req.user.username);
+  groupeeEvent.find({'host' : req.user.username},(err,eventList)=>{
     if(err){
       res.json(err);
       return;
@@ -29,7 +32,7 @@ router.post('/event',(req,res,next)=>{
     host: req.user.username,
     name: req.body.name,
     members: req.user._id,
-    state: req.body.state,
+    state: "OPEN",
   });
 
   newEvent.save((err)=>{
@@ -39,11 +42,11 @@ router.post('/event',(req,res,next)=>{
     }
     res.json({
       message: 'New Event Created!',
-      id: newEvent._id,
-      hostID: newEvent.host,
+      Eventid: newEvent._id,
+      hostname: newEvent.host,
       name: newEvent.name,
       state: newEvent.state,
-      memebers: newEvent.members
+      members: newEvent.members
     });
   });
 });
@@ -57,18 +60,31 @@ router.get('/event/:id',(req,res,next)=>{
     res.status(400).json({message:'Specified id is not valid'});
   }
 
-  groupeeEvent.findById(req.params.id,(err,theEvent)=>{
+    groupeeEvent.findById(req.params.id,(err,theEvent)=>{
     if(err) {
       res.json(err);
       return;
     }
-    res.json(theEvent);
+    groupeeEvent.findById(theEvent._id)
+     .populate('items')
+     .populate('members')
+     .exec(function(err, newEvent) {
+      if (err){ return next(err); }
+      res.json(newEvent);
+    });
+    if(newEvent.items) {
+      _.forEach(items,(item)=>{
+        let itemCost = [];
+        itemCost.push(item.amount);
+    groupeeEvent.findByIdAndUpdate()
+      });
+    }
+    
   });
 });
-
 //
 // ──────────────────────────────────────────────────────────────────────── IV ──────────
-//   :::::: E D I T   A N   E V E N T : :  :   :    :     :        :          :
+//   :::::: U P D A T E   A N   E V E N T : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────────
 //
 router.put('/event/:id',(req,res,next)=>{
@@ -77,10 +93,8 @@ router.put('/event/:id',(req,res,next)=>{
   }
 
   const updates = {
-    host: req.body.host,
     name: req.body.name,
-    members: req.body.members,
-    state: req.body.state
+    state: req.body.state,
   };
 
   groupeeEvent.findByIdAndUpdate(req.params.id,updates,(err)=>{
@@ -108,6 +122,54 @@ router.delete('/event/:id',(req,res,next)=>{
     }
     return res.json({message:"Event has been removed!"});
   });
+});
+//
+// ────────────────────────────────────────────────────────────── VI ──────────
+//   :::::: C R E A T E   A N   I T E M : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────
+//
+router.post('/event/:eventId/items', (req, res, next) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.eventId)){
+    res.status(400).json({message:'Specified id is not valid'});
+  }
+
+    let eventId = req.params.eventId;
+    let user = req.user._id;
+    let username = req.user.username;
+
+    const newItem = new Item({
+      eventid: eventId,
+      userid: user,
+      username: username,
+      amount: req.body.amount,
+      description: req.body.description
+    });
+
+    newItem.save((err,item)=> {
+      if(err){
+        res.json(err);
+        return;
+      }
+      groupeeEvent.findByIdAndUpdate(eventId,{$push:{items: item._id}},{new: true},(err,theEvent)=>{
+        if(err) {
+          res.json(err);
+          return;
+        }
+        console.log("new Event",theEvent);
+    
+        res.json({
+          message: 'New Item Created!',
+          theEvent
+        });
+      });
+    });
+});
+
+router.delete('/events/:eventId/items/:id',(req,res,next) => {
+  // Find event by eventId and owner
+  // Find item
+  // Delete item
+  // Pop from event.items and save it
 });
 
 module.exports = router;

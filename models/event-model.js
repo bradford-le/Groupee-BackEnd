@@ -11,21 +11,24 @@ const groupeeEventSchema = new Schema({
     type: String,
     required: [true, 'The name is required']
   },
-  members: {
+  members: [{
     type: Schema.Types.ObjectId, ref: 'User',
     default: []
-  },
-  items: {
-    type: Schema.Types.ObjectId, ref: 'Items',
+  }],
+  items: [{
+    type: Schema.Types.ObjectId, ref: 'Item',
     default: []
-  },
+  }],
   state: {
     type: String,
     required: [true, 'The State is required']
   },
   payments: [{
     type: Schema.Types.ObjectId, ref: 'Payment'
-  }]
+  }],
+  total: {
+    type: Number
+  },
 },
 {
   timestamps: {

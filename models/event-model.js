@@ -15,10 +15,10 @@ const groupeeEventSchema = new Schema({
     type: Schema.Types.ObjectId, ref: 'User',
     default: []
   },
-  items: {
+  items: [{
     type: Schema.Types.ObjectId, ref: 'Item',
     default: []
-  },
+  }],
   state: {
     type: String,
     required: [true, 'The State is required']

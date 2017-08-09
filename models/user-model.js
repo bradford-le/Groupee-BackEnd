@@ -12,8 +12,8 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'The password is required']
   },
-  eventId: [{ type: Schema.Types.ObjectId, ref: 'groupeeEvent' }],
-  itemIds: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
+  // eventId: [{ type: Schema.Types.ObjectId, ref: 'groupeeEvent' }],
+  // itemIds: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
 },
   {
     timestamps: {

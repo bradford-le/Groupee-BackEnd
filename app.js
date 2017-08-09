@@ -13,6 +13,9 @@ const userAuth = require('./routes/user-auth');
 const User = require('./models/user-model')
 const groupeeEvent = require('./models/event-model');
 
+// app env
+require('dotenv').config();
+
 // database connection
 require('./config/database');
 

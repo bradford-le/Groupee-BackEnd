@@ -1,10 +1,10 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const dbName = 'groupee';
+const dbName = process.env.MONGODB_NAME;
 
 // connect to the database
-mongoose.connect(`mongodb://localhost/${dbName}`);
+mongoose.connect(`mongodb://${process.env.MONGODB_URI}/${dbName}`);
 
 const db = mongoose.connection;
 

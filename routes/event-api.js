@@ -78,7 +78,8 @@ router.put('/event/:id',(req,res,next)=>{
   }
 
   const updates = {
-    name: req.body.name
+    name: req.body.name,
+    state: req.body.state,
   };
 
   groupeeEvent.findByIdAndUpdate(req.params.id,updates,(err)=>{

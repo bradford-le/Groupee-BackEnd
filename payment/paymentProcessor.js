@@ -1,13 +1,19 @@
-export class PaymentProcessor {
+
+class PaymentProcessor {
   constructor(members, items) {
     this.members = members;
+    // console.log("MEMBEERS", members);
     this.items = items;
+    // console.log("ITEEEEEMS", items);
     this.payers = {};
     this.payersDiff = {};
 
     this._groupPayers();
     this._calculateDiffs();
+
+    
   }
+
 
   // send out payment requests for - amounts TO HOST
   // when all is processed (on each payment check if its last payment)
@@ -18,7 +24,7 @@ export class PaymentProcessor {
   }
 
   totalPaid() {
-    return items.reduce((sum, el) => {
+    return this.items.reduce((sum, el) => {
       return sum + el.amount;
     }, 0);
   }
@@ -30,7 +36,7 @@ export class PaymentProcessor {
   _groupPayers() {
     let _payers = {}
 
-    items.forEach(item => {
+    this.items.forEach(item => {
       if (!_payers[item.username]) {
         _payers[item.username] = item.amount;
       } else {
@@ -44,7 +50,7 @@ export class PaymentProcessor {
   _calculateDiffs() {
     let _payersDiff = {};
 
-    members.forEach(member => {
+    this.members.forEach(member => {
       if (!this.payers[member.username]) {
         _payersDiff[member.username] = 0 - this.amountPerEach();
       } else {
@@ -53,6 +59,7 @@ export class PaymentProcessor {
     });
 
     this.payersDiff = _payersDiff;
+    console.log("PAYERS DIFF", this.payersDiff);
   }
 }
 

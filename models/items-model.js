@@ -10,6 +10,9 @@ const itemSchema = new Schema({
     userid: {
         type: Schema.Types.ObjectId, ref: 'User',
     },
+    username: {
+        type: String
+    },
     amount: {
         type: Number
     },

@@ -87,20 +87,26 @@ router.put('/event/:id',(req,res,next)=>{
     res.status(400).json({message:"Specified id is not valid"});
   }
 
-  const updates = {
-    name: req.body.name,
-    state: req.body.state,
-  };
+  groupeeEvent.findById(req.params.id, (err, event)=>{
 
-  // ['open', 'request', 'closed']
+    let members = event.members;
+    console.log("REQ MEMBERS",req.body.members);
+    members= members.concat(req.body.members)
+    console.log("MEMBERS",members);
+    const updates = {
+      name: req.body.name,
+      state: req.body.state,
+      member: members
+    };
 
-  groupeeEvent.findByIdAndUpdate(req.params.id,updates,(err)=>{
-    if(err){
-      res.json(err);
-      return;
-    }
-    res.json({message: 'Activity updated successfully'});
-  });
+    groupeeEvent.findByIdAndUpdate(req.params.id,updates,(err)=>{
+      if(err){
+        res.json(err);
+        return;
+      }
+      res.json({message: 'Activity updated successfully'});
+    });
+  })
 });
 
 // ──────────────────────────────────────────────────────────────────────────── V ──────────

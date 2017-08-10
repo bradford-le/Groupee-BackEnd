@@ -7,7 +7,7 @@ const Item = require('../models/items-model');
 const User = require('../models/user-model');
 const PaymentProcessor = require('../payment/paymentProcessor');
 
-processor = new PaymentProcessor();
+// processor = new PaymentProcessor();
 
 // ────────────────────────────────────────────────────────────────────────────────── I ──────────
 //   :::::: G E T   E V E N T   L I S T I N G S : :  :   :    :     :        :          :
@@ -99,23 +99,6 @@ router.put('/event/:id',(req,res,next)=>{
       res.json(err);
       return;
     }
-
-    if (state === 'request') {
-  
-
-      // Find out how much each has to pay
-
-
-
-
-
-
-
-
-
-      // 
-    }
-
     res.json({message: 'Activity updated successfully'});
   });
 });

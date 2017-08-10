@@ -1,4 +1,5 @@
-export class PaymentProcessor {
+class PaymentProcessor {
+
   constructor(members, items) {
     this.members = members;
     this.items = items;

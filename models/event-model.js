@@ -25,7 +25,10 @@ const groupeeEventSchema = new Schema({
   },
   payments: [{
     type: Schema.Types.ObjectId, ref: 'Payment'
-  }]
+  }],
+  total: {
+    type: Number
+  },
 },
 {
   timestamps: {

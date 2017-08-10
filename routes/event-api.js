@@ -71,15 +71,7 @@ router.get('/event/:id',(req,res,next)=>{
      .exec(function(err, newEvent) {
       if (err){ return next(err); }
       res.json(newEvent);
-    });
-    if(newEvent.items) {
-      _.forEach(items,(item)=>{
-        let itemCost = [];
-        itemCost.push(item.amount);
-    groupeeEvent.findByIdAndUpdate()
-      });
-    }
-    
+    });    
   });
 });
 //

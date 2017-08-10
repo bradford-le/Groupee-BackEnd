@@ -27,6 +27,7 @@ router.get('/event', (req,res,next)=>{
 //   :::::: C R E A T E   A   N E W   E V E N T : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
+
 router.post('/event',(req,res,next)=>{
   const newEvent = new groupeeEvent({
     host: req.user.username,
@@ -55,6 +56,7 @@ router.post('/event',(req,res,next)=>{
 //   :::::: G E T   A   S I N G L E   E V E N T : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────────────────────────
 //
+
 router.get('/event/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:'Specified id is not valid'});
@@ -74,11 +76,13 @@ router.get('/event/:id',(req,res,next)=>{
     });    
   });
 });
+
 //
 // ──────────────────────────────────────────────────────────────────────── IV ──────────
 //   :::::: U P D A T E   A N   E V E N T : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────────
 //
+
 router.put('/event/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:"Specified id is not valid"});
@@ -102,6 +106,7 @@ router.put('/event/:id',(req,res,next)=>{
 //   :::::: D E L E T E   A N   E V E N T : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────────────────────────────
 //
+
 router.delete('/event/:id',(req,res,next)=>{
   if(!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(400).json({message:"Specified id is not valid"});
@@ -115,11 +120,13 @@ router.delete('/event/:id',(req,res,next)=>{
     return res.json({message:"Event has been removed!"});
   });
 });
+
 //
 // ────────────────────────────────────────────────────────────── VI ──────────
 //   :::::: C R E A T E   A N   I T E M : :  :   :    :     :        :          :
 // ────────────────────────────────────────────────────────────────────────
 //
+
 router.post('/event/:eventId/items', (req, res, next) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.eventId)){
     res.status(400).json({message:'Specified id is not valid'});

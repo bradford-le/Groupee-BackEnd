@@ -5,6 +5,9 @@ const _ = require('lodash');
 const groupeeEvent = require('../models/event-model');  
 const Item = require('../models/items-model');
 const User = require('../models/user-model');
+const PaymentProcessor = require('../payment/paymentProcessor');
+
+processor = new PaymentProcessor();
 
 // ────────────────────────────────────────────────────────────────────────────────── I ──────────
 //   :::::: G E T   E V E N T   L I S T I N G S : :  :   :    :     :        :          :
@@ -89,11 +92,30 @@ router.put('/event/:id',(req,res,next)=>{
     state: req.body.state,
   };
 
+  // ['open', 'request', 'closed']
+
   groupeeEvent.findByIdAndUpdate(req.params.id,updates,(err)=>{
     if(err){
       res.json(err);
       return;
     }
+
+    if (state === 'request') {
+  
+
+      // Find out how much each has to pay
+
+
+
+
+
+
+
+
+
+      // 
+    }
+
     res.json({message: 'Activity updated successfully'});
   });
 });

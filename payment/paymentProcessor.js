@@ -14,7 +14,6 @@ class PaymentProcessor {
     
   }
 
-
   // send out payment requests for - amounts TO HOST
   // when all is processed (on each payment check if its last payment)
   // send out payment requests for + amounts FROM HOST

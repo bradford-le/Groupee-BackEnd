@@ -6,6 +6,7 @@ const cors = require('cors');
 const passport = require('./config/passport');
 const http = require('http');
 const morgan = require('morgan');
+const _ = require('lodash');
 
 const eventApi = require('./routes/event-api');
 const userAuth = require('./routes/user-auth');

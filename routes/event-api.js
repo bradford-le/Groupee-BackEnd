@@ -102,14 +102,7 @@ router.put('/event/:id', (req, res, next) => {
       name: req.body.name,
       state: req.body.state
     };
-    groupeeEvent.findByIdAndUpdate(req.params.id,updates,(err)=>{
-      if(err){
-        res.json(err);
-        return;
-      }
-      res.json({message: 'Activity updated successfully'});
-    });
-    })
+    
   groupeeEvent.findById(req.params.id, (err, event) => {
     if (err) {
       res.json(err);
@@ -146,24 +139,18 @@ router.put('/event/:id', (req, res, next) => {
               processor = new PaymentProcessor(membersArray[0].members, itemArray[0].items);
             });
         });
-
-
-
+      }
 
       //   // Find out how much each has to pay 
       // processor = new PaymentProcessor(newEvent.members, newEvent.items);
-
-
-
-
-
-
-
-      //   // 
-    }
-
-    res.json({ message: 'Activity updated successfully' });
-  });
+      groupeeEvent.findByIdAndUpdate(req.params.id,updates,(err)=>{
+        if(err){
+          res.json(err);
+          return;
+        }
+        res.json({message: 'Activity updated successfully'});
+      });
+    });
 });
 
 // ──────────────────────────────────────────────────────────────────────────── V ──────────

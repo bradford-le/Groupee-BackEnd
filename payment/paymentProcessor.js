@@ -59,7 +59,9 @@ class PaymentProcessor {
     });
 
     this.payersDiff = _payersDiff;
+    console.log("*******************************");
     console.log("PAYERS DIFF", this.payersDiff);
+    console.log("*******************************");
   }
 }
 
